@@ -1,10 +1,19 @@
 import "../styles/style.css";
 
+const getResouceType = (url) => {
+    const urlArray = url.split('/');
+    const resourceType = urlArray[urlArray.length - 2];
+    return resourceType.slice(0, -1).toUpperCase();
+}
+
 function Item(props) {
     const { item } = props;
     return (
         <div className="container">
-            {item && <h3>{item.name ? item.name : item.aliases}</h3>}
+            {item &&
+                (<h3>
+                    {getResouceType(item.url)}: {(item.name ? item.name : item.aliases)}
+                </h3>)}
             <div className="json-display">
                 {item && Object.keys(item).map(key => (
                     <div key={key} className="json-row">

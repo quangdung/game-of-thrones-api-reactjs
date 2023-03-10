@@ -5,10 +5,40 @@ import Element from './Element';
 
 import fetchData from '../utility/fetchData';
 
+const searchInData = (data, toFind) => {
+    let found = [];
+    const keysExcluded = [ // These keys contain only URLs
+        'url',
+        'characters', 'povCharacters', // books
+        'books', 'povBooks', // characters
+        'currentLord', 'heir', 'overlord', 'cadetBranches', 'swornMembers' // houses
+    ]
+
+    for (let item of data) {
+        const keys = Object.keys(item).filter(key => !keysExcluded.includes(key));
+
+        for (let key of keys) {
+            if (Array.isArray(item[key])) {
+                if (item[key].findIndex(e => e.toLowerCase().includes(toFind.toLowerCase())) > -1) {
+                    found.push(item);
+                    break;
+                }
+            }
+            else if (item[key].toString().toLowerCase().includes(toFind.toLowerCase())) {
+                found.push(item);
+                break;
+            }
+        }
+    };
+
+    return found;
+}
+
 function Search() {
     const [books, setBooks] = useState([]);
     const [characters, setCharacters] = useState([]);
     const [houses, setHouses] = useState([]);
+    // const [data, setData] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [found, setFound] = useState([]);
@@ -22,6 +52,16 @@ function Search() {
         fetchData('https://anapioficeandfire.com/api/books', setBooks);
         fetchData('https://anapioficeandfire.com/api/characters', setCharacters);
         fetchData('https://anapioficeandfire.com/api/houses', setHouses);
+
+        // let allData = [];
+        // const books = fetchData('https://anapioficeandfire.com/api/books');
+        // console.log('books:', books)
+        // allData.push(...books);
+        // const characters = fetchData('https://anapioficeandfire.com/api/characters');
+        // allData.push(...characters);
+        // const houses = fetchData('https://anapioficeandfire.com/api/houses');
+        // allData.push(...houses);
+        // setData(allData);
     }, []);
 
     const handleSearchTermChange = (event) => {
@@ -31,29 +71,28 @@ function Search() {
         if (toFind.length >= 3) {
             let result = [];
 
-            const booksFound = books.filter(e =>
-                e.name.toLowerCase().includes(toFind.toLowerCase()));
+            const booksFound = searchInData(books, toFind);
             if (booksFound && booksFound.length) {
                 console.log('found book:', booksFound);
                 result.push(...booksFound);
                 console.log('result:', result);
             }
 
-            const charactersFound = characters.filter(e =>
-                e.name.toLowerCase().includes(toFind.toLowerCase()));
+            const charactersFound = searchInData(characters, toFind);
             if (charactersFound && charactersFound.length) {
                 console.log('found characters:', charactersFound);
                 result.push(...charactersFound);
                 console.log('result:', result);
             }
 
-            const housesFound = houses.filter(e =>
-                e.name.toLowerCase().includes(toFind.toLowerCase()));
+            const housesFound = searchInData(houses, toFind);
             if (housesFound && housesFound.length) {
                 console.log('found houses:', housesFound);
                 result.push(...housesFound);
                 console.log('result:', result);
             }
+
+            // let result = searchInData(data, toFind);
 
             setFound(result);
             setItem(null);
@@ -66,7 +105,7 @@ function Search() {
             <div>
                 <input
                     type="text"
-                    placeholder="Search by name"
+                    placeholder="Type more than 3 characters to search..."
                     value={searchTerm}
                     onChange={handleSearchTermChange}
                 />
