@@ -1,4 +1,4 @@
-import "../styles/style.css";
+import Table from 'react-bootstrap/Table';
 
 const getResouceType = (url) => {
     const urlArray = url.split('/');
@@ -9,20 +9,27 @@ const getResouceType = (url) => {
 function Item(props) {
     const { item } = props;
     return (
-        <div className="container">
+        <div>
             {item &&
                 (<h3>
                     {getResouceType(item.url)}: {(item.name ? item.name : item.aliases)}
                 </h3>)}
-            <div className="json-display">
-                {item && Object.keys(item).map(key => (
-                    <div key={key} className="json-row">
-                        <div className="json-key">{key}:</div>
-                        <div className="json-value">{item[key]}</div>
-                    </div>
-                ))}
 
-            </div>
+            <Table striped bordered hover>
+                <tbody>
+                    {item && Object.keys(item).map(key => (
+                        <tr key={key}>
+                            <td>{key.charAt(0).toUpperCase() + key.slice(1)}</td>
+                            <td>{
+                                Array.isArray(item[key])
+                                    ? item[key].map((e, index) => (e + (index < item[key].length - 1 ? ', ' : '')))
+                                    : item[key]
+                            }</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+
         </div>
     )
 }
