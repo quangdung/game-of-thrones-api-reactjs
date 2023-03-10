@@ -1,9 +1,10 @@
-import "./App.css";
-import Resource from "./Resource";
+import Resource from "./components/Resource";
+import Search from "./components/Search";
 
 function App() {
   return (
     <div>
+      <Search />
       <Resource />
     </div>
   );

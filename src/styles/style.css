@@ -1,0 +1,27 @@
+* {
+    font-family: sans-serif;
+}
+
+.container {
+    margin: 20px;
+}
+
+.json-display {
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+}
+
+.json-row {
+    display: flex;
+    /* flex: 1 1 33.33%; */
+    padding: 5px;
+}
+
+.json-key {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.json-value {
+    /* overflow-wrap: break-word; */
+}
