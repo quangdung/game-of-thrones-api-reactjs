@@ -1,10 +1,10 @@
 import "./App.css";
-import List from "./List";
+import Resource from "./Resource";
 
 function App() {
   return (
     <div>
-      <List />
+      <Resource />
     </div>
   );
 };
