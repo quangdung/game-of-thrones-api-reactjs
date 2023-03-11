@@ -1,91 +1,89 @@
 import React, { useState, useEffect } from 'react';
 
-import Alert from 'react-bootstrap/Alert';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
+import { Alert, Col, Container, ListGroup, Row } from 'react-bootstrap';
+// import { Alert, Col, Container, ListGroup, Row } from 'reactstrap';
 
 import Element from './Element';
 import Item from './Item';
+import PaginationData from './PaginationData';
 
 import fetchData from '../utility/fetchData';
 
+import { API_DATA_URL } from '../constants';
+
 function Resource() {
-  const [resources, setResources] = useState([]);
+  const [resources, setResources] = useState([]); // API 1st level
   const [resourceSelected, setResourceSelected] = useState(null);
 
-  const [elements, setElements] = useState(null);
+  const [elements, setElements] = useState(null); // API 2nd level
+  const [elementSelected, setElementSelected] = useState(null);
+  const [pagination, setPagination] = useState(null); // API 2nd level
 
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState(null); // API 3rd level
 
   useEffect(() => {
-    fetchData('https://anapioficeandfire.com/api/', setResources);
+    fetchData(API_DATA_URL, setResources);
   }, []);
 
   const onResourceClick = (resource) => {
     setResourceSelected(resource);
     setItem(null);
 
-    console.log('resource selected:', resource);
-    fetch(`https://anapioficeandfire.com/api/${resource}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(resource, ':', data.length);
-        setElements(data);
-      });
+    fetchData(`${API_DATA_URL}/${resource}`, setElements, setPagination);
+  }
+
+  const onPaginationClick = (page) => {
+    fetchData(page, setElements, setPagination);
   }
 
   return (
-    <div>
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col md={8}>
-            <Alert variant="info">
-              <Alert.Heading className="text-center">
-                <h1>Game of Thrones</h1>
-              </Alert.Heading>
-              <hr />
-              <p>
-                A a quick overview over all Game of thrones resources like houses, characters and books.
-                Click on a resource to see all the elements of that resource, 
-                or use the search bar to search for a specific element.
-              </p>
-            </Alert>
-          </Col>
-          <Col></Col>
-        </Row>
+    <Container>
+      <Row>
+        <Col></Col>
+        <Col md={8}>
+          <Alert variant="info" className="text-center">
+            <Alert.Heading>
+              <h1>Game of Thrones</h1>
+            </Alert.Heading>
+            <hr />
+            <h5>A quick overview over all Game of thrones resources like houses, characters and books</h5>
+            <p>
+              Click on a resource to see all the elements of that resource,
+              or use the search bar to search for a specific element
+            </p>
+          </Alert>
+        </Col>
+        <Col></Col>
+      </Row>
 
-        <Row>
-          <Col xs={4}>
-            <Row>
-              <ListGroup>
-                <ListGroup.Item variant='info'><h3>Resource</h3></ListGroup.Item>
-                {Object.keys(resources).map(item => (
-                  <ListGroup.Item
-                    key={item}
-                    action
-                    {...(resourceSelected === item && { active: true })}
-                    onClick={() => onResourceClick(item)}
-                  >{item.charAt(0).toUpperCase() + item.slice(1)}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Row>
-
-            <Row>
-              {resourceSelected && <h2>{resourceSelected.toUpperCase()}</h2>}
-              <Element elements={elements} setDataSelected={setItem} />
-            </Row>
-          </Col>
-          <Col xs={1}></Col>
-          <Col>
-            <Item item={item} />
-          </Col>
-        </Row>
-      </Container>
-    </div>
+      <Row>
+        <Col md={4}>
+          {resources && (
+            <ListGroup>
+              <ListGroup.Item variant='primary'><h3>Resources</h3></ListGroup.Item>
+              {Object.keys(resources).map(item => (
+                <ListGroup.Item
+                  key={item}
+                  action
+                  {...(resourceSelected === item && { active: true })}
+                  onClick={() => onResourceClick(item)}
+                ><b>{item.charAt(0).toUpperCase() + item.slice(1)}</b>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>)}
+          <br />
+          <Element elements={elements} setDataSelected={setItem} />
+          <br />
+          {elements
+            && <PaginationData
+              pagination={pagination}
+              setItemUrl={onPaginationClick}
+            />}
+        </Col>
+        <Col xs={1}></Col>
+        <Col><Item item={item} /></Col>
+      </Row>
+    </Container>
   );
 }
 

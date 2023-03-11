@@ -1,4 +1,4 @@
-import Table from 'react-bootstrap/Table';
+import { Table } from 'react-bootstrap';
 
 const getResouceType = (url) => {
     const urlArray = url.split('/');
@@ -8,13 +8,11 @@ const getResouceType = (url) => {
 
 function Item(props) {
     const { item } = props;
-    return (
+    return (item && (
         <div>
-            {item &&
-                (<h3>
-                    {getResouceType(item.url)}: {(item.name ? item.name : item.aliases)}
-                </h3>)}
-
+            <h3>
+                {getResouceType(item.url)}: {(item.name ? item.name : item.aliases)}
+            </h3>
             <Table striped bordered hover>
                 <tbody>
                     {item && Object.keys(item).map(key => (
@@ -29,9 +27,8 @@ function Item(props) {
                     ))}
                 </tbody>
             </Table>
-
         </div>
-    )
+    ))
 }
 
 export default Item;

@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Resource from "./components/Resource";
 import Search from "./components/Search";

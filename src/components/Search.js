@@ -5,17 +5,18 @@ import Element from './Element';
 
 import fetchData from '../utility/fetchData';
 
+import { 
+    API_BOOKS_URL, 
+    API_CHARACTERS_URL, 
+    API_HOUSES_URL, 
+    KEY_EXCLUDED 
+} from '../constants';
+
 const searchInData = (data, toFind) => {
     let found = [];
-    const keysExcluded = [ // These keys contain only URLs
-        'url',
-        'characters', 'povCharacters', // books
-        'books', 'povBooks', // characters
-        'currentLord', 'heir', 'overlord', 'cadetBranches', 'swornMembers' // houses
-    ]
 
     for (let item of data) {
-        const keys = Object.keys(item).filter(key => !keysExcluded.includes(key));
+        const keys = Object.keys(item).filter(key => !KEY_EXCLUDED.includes(key));
 
         for (let key of keys) {
             if (Array.isArray(item[key])) {
@@ -49,9 +50,9 @@ function Search() {
         setFound([]);
         setSearchTerm('');
 
-        fetchData('https://anapioficeandfire.com/api/books', setBooks);
-        fetchData('https://anapioficeandfire.com/api/characters', setCharacters);
-        fetchData('https://anapioficeandfire.com/api/houses', setHouses);
+        fetchData(API_BOOKS_URL, setBooks);
+        fetchData(API_CHARACTERS_URL, setCharacters);
+        fetchData(API_HOUSES_URL, setHouses);
 
         // let allData = [];
         // const books = fetchData('https://anapioficeandfire.com/api/books');
