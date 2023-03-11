@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 
-import onElementClick from "../utility/onElementClick";
-
 function Element(props) {
     const { elements, setDataSelected } = props;
 

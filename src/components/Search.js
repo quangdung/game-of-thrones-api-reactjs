@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+
+import { Button, Col, Form, Overlay, Row } from 'react-bootstrap';
 
 import Item from './Item';
 import Element from './Element';
 
 import fetchData from '../utility/fetchData';
 
-import { 
-    API_BOOKS_URL, 
-    API_CHARACTERS_URL, 
-    API_HOUSES_URL, 
-    KEY_EXCLUDED 
+import {
+    API_BOOKS_URL,
+    API_CHARACTERS_URL,
+    API_HOUSES_URL,
+    KEY_EXCLUDED
 } from '../constants';
 
 const searchInData = (data, toFind) => {
@@ -39,12 +41,13 @@ function Search() {
     const [books, setBooks] = useState([]);
     const [characters, setCharacters] = useState([]);
     const [houses, setHouses] = useState([]);
-    // const [data, setData] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [found, setFound] = useState([]);
 
     const [item, setItem] = useState(null);
+
+    const target = useRef(null);
 
     useEffect(() => {
         setFound([]);
@@ -102,16 +105,38 @@ function Search() {
 
     return (
         <div>
-            <h2>Search</h2>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Type more than 3 characters to search..."
-                    value={searchTerm}
-                    onChange={handleSearchTermChange}
-                />
-            </div>
-            <Element elements={found} setDataSelected={setItem} />
+            <Form>
+                <Row>
+                    <Col>
+                        <Form.Control
+                            type="text"
+                            placeholder="Type more than 3 characters..."
+                            value={searchTerm}
+                            onChange={handleSearchTermChange}
+                            ref={target}
+                        />
+                    </Col>
+                    <Col>
+                        <Button disabled variant="outline-success">Search</Button>
+                    </Col>
+                </Row>
+            </Form>
+            {!item && <Overlay target={target.current} show={found.length > 0} placement="bottom">
+                {props => (
+                    <div
+                        {...props}
+                    // style={{
+                    //     backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                    //     padding: '2px 10px',
+                    //     color: 'white',
+                    //     borderRadius: 3,
+                    //     ...props.style,
+                    // }}
+                    >
+                        <Element elements={found} setDataSelected={setItem} />
+                    </div>
+                )}
+            </Overlay>}
             <Item item={item} />
         </div>
     );

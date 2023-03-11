@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import { Alert, Col, Container, ListGroup, Row } from 'react-bootstrap';
-// import { Alert, Col, Container, ListGroup, Row } from 'reactstrap';
 
 import Element from './Element';
 import Item from './Item';
@@ -16,7 +15,6 @@ function Resource() {
   const [resourceSelected, setResourceSelected] = useState(null);
 
   const [elements, setElements] = useState(null); // API 2nd level
-  const [elementSelected, setElementSelected] = useState(null);
   const [pagination, setPagination] = useState(null); // API 2nd level
 
   const [item, setItem] = useState(null); // API 3rd level
@@ -72,13 +70,13 @@ function Resource() {
               ))}
             </ListGroup>)}
           <br />
-          <Element elements={elements} setDataSelected={setItem} />
           <br />
           {elements
             && <PaginationData
               pagination={pagination}
               setItemUrl={onPaginationClick}
             />}
+          <Element elements={elements} setDataSelected={setItem} />
         </Col>
         <Col xs={1}></Col>
         <Col><Item item={item} /></Col>

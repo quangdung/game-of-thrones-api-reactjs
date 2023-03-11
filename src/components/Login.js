@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Figure, Form, Row } from 'react-bootstrap';
 
 import { AuthContext } from '../utility/authContext';
 
@@ -17,12 +17,12 @@ function Login() {
 
     return (<div>
         {user ? (
-            <div>
-                <p>Hello, {user.username}</p>
-                <button onClick={handleLogoutButtonClick}>Log out</button>
+            <div><Figure>
+                <Figure.Image src={'https://www.gravatar.com/avatar/?d=mp'} height={30} width={40} />
+            </Figure> Hello, {user.username} <Button variant="secondary" size='sm' onClick={handleLogoutButtonClick}>Log out</Button>
             </div>
         ) : (<Container>
-            <Row>
+            <Row className='mt-5'>
                 <Col md></Col>
                 <Col md>
                     <Form onSubmit={handleLoginFormSubmit}>
