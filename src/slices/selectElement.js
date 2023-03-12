@@ -13,7 +13,6 @@ const selectSlice = createSlice({
     },
     reducers: {
         selectElement(state, action) {
-            console.log('store:', action.payload)
             state.element = action.payload;
         }
     }
