@@ -6,7 +6,7 @@ import Resource from "./components/Resource";
 import Search from "./components/Search";
 import Login from "./components/Login";
 
-import { AuthContext } from "./utility/authContext";
+import { AuthContext } from "./auth";
 
 function App() {
   const { user } = useContext(AuthContext);

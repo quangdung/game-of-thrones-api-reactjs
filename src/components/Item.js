@@ -1,36 +1,27 @@
 import { useSelector } from 'react-redux';
-import { Table } from 'react-bootstrap';
 
-const getResouceType = (url) => {
-    const urlArray = url.split('/');
-    const resourceType = urlArray[urlArray.length - 2];
-    return resourceType.slice(0, -1).toUpperCase();
-}
+import ItemBook from './ItemBook';
+import ItemCharacter from './ItemCharacter';
+import ItemHouse from './ItemHouse';
+
+import { getResouceType } from '../utils';
+
+import { BOOK_TYPE, CHARACTER_TYPE, HOUSE_TYPE } from '../constants';
 
 function Item() {
     const item = useSelector(state => state.selectElement.element);
     console.log('item:', item)
 
-    return (item && (<div>
-        <h3>
-            {getResouceType(item.url)}: {(item.name ? item.name : item.aliases)}
-        </h3>
-        <Table striped bordered hover>
-            <tbody>
-                {item && Object.keys(item).map(key => (
-                    <tr key={key}>
-                        <td>{key.charAt(0).toUpperCase() + key.slice(1)}</td>
-                        <td>{
-                            Array.isArray(item[key])
-                                ? item[key].map((e, index) => (e + (index < item[key].length - 1 ? ', ' : '')))
-                                : item[key]
-                        }</td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
-    </div>
-    ))
+    if (item) {
+        const resourceType = getResouceType(item.url);
+
+        switch (resourceType) {
+            case BOOK_TYPE: return <ItemBook item={item} />;
+            case CHARACTER_TYPE: return <ItemCharacter item={item} />;
+            case HOUSE_TYPE: return <ItemHouse item={item} />;
+            default: return <></>
+        }
+    }
 }
 
 export default Item;

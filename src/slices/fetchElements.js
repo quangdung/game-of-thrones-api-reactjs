@@ -13,7 +13,7 @@ export const fetchElements = createAsyncThunk(
     'api/fetchElements',
     async (endpoint) => {
         const queryString = endpoint.includes(PAGINATION_PAGE_TEXT)
-            ? `&${PAGINATION_PAGE_SIZE_TEXT}=${PAGINATION_PAGE_SIZE}` : '';
+            ? `&${PAGINATION_PAGE_SIZE_TEXT}=${PAGINATION_PAGE_SIZE[0]}` : '';
 
         const response = await axios.get(`${API_DATA_URL}/${endpoint}${queryString}`);
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { Button, Col, Container, Figure, Form, Row } from 'react-bootstrap';
 
-import { AuthContext } from '../utility/authContext';
+import { AuthContext } from '../auth';
 
 function Login() {
     const { user, handleLogin, handleLogout } = useContext(AuthContext);

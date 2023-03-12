@@ -9,13 +9,10 @@ function Element() {
 
     const elements = useSelector(state => state.elements.data);
     const elementSelected = useSelector(state => state.selectElement.element);
-    console.log('elementSelected:', elementSelected)
 
     const onElementClick = (elementUrl) => fetch(elementUrl)
         .then(response => response.json())
-        .then(data => {
-            dispatch(actions.selectElement(data));
-        });
+        .then(data => dispatch(actions.selectElement(data)));
 
     return (elements && (
         <ListGroup>
@@ -29,8 +26,7 @@ function Element() {
                 </ListGroup.Item>
             ))}
         </ListGroup>
-    )
-    )
+    ))
 }
 
-export default Element
+export default Element;
