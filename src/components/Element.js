@@ -2,21 +2,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ListGroup } from 'react-bootstrap';
 
-import { selectElement } from '../redux/store';
+import { actions } from '../slices';
 
-function Element(props) {
-    const { elements, setDataSelected } = props;
-
+function Element() {
     const dispatch = useDispatch();
-    const elementSelected = useSelector(state => state.selectedElement);
+
+    const elements = useSelector(state => state.elements.data);
+    const elementSelected = useSelector(state => state.selectElement.element);
+    console.log('elementSelected:', elementSelected)
 
     const onElementClick = (elementUrl) => fetch(elementUrl)
         .then(response => response.json())
         .then(data => {
-            dispatch(selectElement(data));
-            if (setDataSelected) {
-                setDataSelected(data);
-            }
+            dispatch(actions.selectElement(data));
         });
 
     return (elements && (

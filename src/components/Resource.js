@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Alert, Col, Container, ListGroup, Row } from 'react-bootstrap';
 
@@ -7,33 +7,23 @@ import Element from './Element';
 import Item from './Item';
 import PaginationData from './PaginationData';
 
-import fetchData from '../utility/fetchData';
-import { selectElement } from '../redux/store';
-
-import { API_DATA_URL } from '../constants';
+import { actions } from '../slices';
 
 function Resource() {
-  const [resources, setResources] = useState([]); // API 1st level
   const [resourceSelected, setResourceSelected] = useState(null);
-
-  const [elements, setElements] = useState(null); // API 2nd level
-  const [pagination, setPagination] = useState(null); // API 2nd level
 
   const dispatch = useDispatch();
 
+  const resources = useSelector(state => state.resource.data); // API 1st level
+
   useEffect(() => {
-    fetchData(API_DATA_URL, setResources);
-  }, []);
+    dispatch(actions.fetchResource());
+  }, [dispatch]);
 
   const onResourceClick = (resource) => {
     setResourceSelected(resource);
-    dispatch(selectElement(null)); // Hide element details
-
-    fetchData(`${API_DATA_URL}/${resource}`, setElements, setPagination);
-  }
-
-  const onPaginationClick = (page) => {
-    fetchData(page, setElements, setPagination);
+    dispatch(actions.fetchElements(resource));
+    dispatch(actions.selectElement(null)); // Hide element details when change resource
   }
 
   return (
@@ -73,12 +63,8 @@ function Resource() {
             </ListGroup>)}
           <br />
           <br />
-          {elements
-            && <PaginationData
-              pagination={pagination}
-              setItemUrl={onPaginationClick}
-            />}
-          <Element elements={elements} />
+          <PaginationData />
+          <Element />
         </Col>
         <Col xs={1}></Col>
         <Col><Item /></Col>

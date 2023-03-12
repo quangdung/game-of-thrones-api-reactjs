@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import App from './App';
 import { AuthProvider } from './utility/authContext';
-import store from "./redux/store";
+import store from "./store";
 import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

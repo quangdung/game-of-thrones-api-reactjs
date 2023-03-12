@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Col, Form, Overlay, Row } from 'react-bootstrap';
+import { Button, Col, Form, Overlay, Row } from 'react-bootstrap';
 
 import Element from './Element';
 
-import fetchData from '../utility/fetchData';
+import { actions } from '../slices';
+import fetchData2 from '../utility/fetchData';
 
 import {
     API_BOOKS_URL,
@@ -37,6 +39,11 @@ const searchInData = (data, toFind) => {
 }
 
 function Search() {
+    const dispatch = useDispatch();
+
+    const results = useSelector(state => state.search.results);
+    console.log('results:', results);
+
     const [books, setBooks] = useState([]);
     const [characters, setCharacters] = useState([]);
     const [houses, setHouses] = useState([]);
@@ -44,7 +51,8 @@ function Search() {
     const [searchTerm, setSearchTerm] = useState('');
     const [found, setFound] = useState([]);
 
-    const [element, setElement] = useState(null);
+    // To hide search results when an element is selected
+    const [element, setElement] = useState(null); 
 
     const target = useRef(null);
 
@@ -52,9 +60,9 @@ function Search() {
         setFound([]);
         setSearchTerm('');
 
-        fetchData(API_BOOKS_URL, setBooks);
-        fetchData(API_CHARACTERS_URL, setCharacters);
-        fetchData(API_HOUSES_URL, setHouses);
+        // fetchData2(API_BOOKS_URL, setBooks);
+        // fetchData2(API_CHARACTERS_URL, setCharacters);
+        // fetchData2(API_HOUSES_URL, setHouses);
 
         // let allData = [];
         // const books = fetchData('https://anapioficeandfire.com/api/books');
@@ -70,37 +78,39 @@ function Search() {
     const handleSearchTermChange = (event) => {
         const toFind = event.target.value;
 
+        dispatch(actions.search(toFind));
+
         setSearchTerm(toFind);
-        if (toFind.length < 3) {
-            setFound([]);
-        }
-        else {
-            let result = [];
+        // if (toFind.length < 3) {
+        //     setFound([]);
+        // }
+        // else {
+        //     let result = [];
 
-            const booksFound = searchInData(books, toFind);
-            if (booksFound && booksFound.length) {
-                console.log('found book:', booksFound);
-                result.push(...booksFound);
-                console.log('result:', result);
-            }
+        //     const booksFound = searchInData(books, toFind);
+        //     if (booksFound && booksFound.length) {
+        //         console.log('found book:', booksFound);
+        //         result.push(...booksFound);
+        //         console.log('result:', result);
+        //     }
 
-            const charactersFound = searchInData(characters, toFind);
-            if (charactersFound && charactersFound.length) {
-                console.log('found characters:', charactersFound);
-                result.push(...charactersFound);
-                console.log('result:', result);
-            }
+        //     const charactersFound = searchInData(characters, toFind);
+        //     if (charactersFound && charactersFound.length) {
+        //         console.log('found characters:', charactersFound);
+        //         result.push(...charactersFound);
+        //         console.log('result:', result);
+        //     }
 
-            const housesFound = searchInData(houses, toFind);
-            if (housesFound && housesFound.length) {
-                console.log('found houses:', housesFound);
-                result.push(...housesFound);
-                console.log('result:', result);
-            }
+        //     const housesFound = searchInData(houses, toFind);
+        //     if (housesFound && housesFound.length) {
+        //         console.log('found houses:', housesFound);
+        //         result.push(...housesFound);
+        //         console.log('result:', result);
+        //     }
 
-            setFound(result);
-            setElement(null);
-        };
+        //     setFound(result);
+        //     setElement(null);
+        // };
     };
 
     return (<div>
@@ -112,11 +122,13 @@ function Search() {
                 onChange={handleSearchTermChange}
                 ref={target}
             />
-        </Col></Row></Form>
-        {!element && <Overlay target={target.current} show={found.length > 0} placement="bottom">
+        </Col>
+        <Col><Button /></Col>
+        </Row></Form>
+        {<Overlay target={target.current} show={found.length > 0} placement="bottom">
             {props => (
                 <div {...props} >
-                    <Element elements={found} setDataSelected={setElement} />
+                    <Element elements={results} />
                 </div>
             )}
         </Overlay>}

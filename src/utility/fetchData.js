@@ -1,6 +1,6 @@
 import { PAGINATION_LINK, PAGINATION_PAGE_SIZE } from "../constants";
 
-function fetchData(url, setData, setPagination, page, pageSize = PAGINATION_PAGE_SIZE) {
+function fetchData2(url, setData, setPagination, page, pageSize = PAGINATION_PAGE_SIZE) {
 
     const queryString = page && pageSize ? `?page=${page}&pageSize=${pageSize}` : '';
     // console.log('fetchData:', url, 'page:',page,'pageSize:',pageSize, 'queryString:', queryString)
@@ -27,4 +27,4 @@ function fetchData(url, setData, setPagination, page, pageSize = PAGINATION_PAGE
         });
 };
 
-export default fetchData;
+export default fetchData2;
