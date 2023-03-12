@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
 const getResouceType = (url) => {
@@ -7,7 +8,9 @@ const getResouceType = (url) => {
 }
 
 function Item(props) {
-    const { item } = props;
+    const item = useSelector(state => state.selectedElement);
+    console.log('item:', item)
+
     return (item && (
         <div>
             <h3>

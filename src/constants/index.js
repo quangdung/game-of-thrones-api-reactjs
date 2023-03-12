@@ -1,3 +1,6 @@
+/**
+ * Can also use environment variables
+ */
 // Resource.js
 export const API_DATA_URL = 'https://anapioficeandfire.com/api';
 
@@ -15,3 +18,4 @@ export const KEY_EXCLUDED = [ // These keys contain only URLs
 // PaginationData.js
 export const PAGINATION_LINK = ['first', 'prev', 'next', 'last'];
 export const PAGINATION_PAGE_SIZE = 10;
+

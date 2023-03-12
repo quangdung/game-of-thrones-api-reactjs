@@ -18,6 +18,7 @@ function App() {
         <Container>
           <Row>
             <Col><Login /></Col>
+            <Col></Col>
             <Col className='mt-2'><Search /></Col>
           </Row>
         </Container>

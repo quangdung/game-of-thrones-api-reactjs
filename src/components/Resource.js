@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Alert, Col, Container, ListGroup, Row } from 'react-bootstrap';
 
@@ -7,6 +8,7 @@ import Item from './Item';
 import PaginationData from './PaginationData';
 
 import fetchData from '../utility/fetchData';
+import { selectElement } from '../redux/store';
 
 import { API_DATA_URL } from '../constants';
 
@@ -17,7 +19,7 @@ function Resource() {
   const [elements, setElements] = useState(null); // API 2nd level
   const [pagination, setPagination] = useState(null); // API 2nd level
 
-  const [item, setItem] = useState(null); // API 3rd level
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchData(API_DATA_URL, setResources);
@@ -25,7 +27,7 @@ function Resource() {
 
   const onResourceClick = (resource) => {
     setResourceSelected(resource);
-    setItem(null);
+    dispatch(selectElement(null)); // Hide element details
 
     fetchData(`${API_DATA_URL}/${resource}`, setElements, setPagination);
   }
@@ -76,10 +78,10 @@ function Resource() {
               pagination={pagination}
               setItemUrl={onPaginationClick}
             />}
-          <Element elements={elements} setDataSelected={setItem} />
+          <Element elements={elements} />
         </Col>
         <Col xs={1}></Col>
-        <Col><Item item={item} /></Col>
+        <Col><Item /></Col>
       </Row>
     </Container>
   );

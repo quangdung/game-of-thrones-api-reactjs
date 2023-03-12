@@ -19,7 +19,8 @@ function Login() {
         {user ? (
             <div><Figure>
                 <Figure.Image src={'https://www.gravatar.com/avatar/?d=mp'} height={30} width={40} />
-            </Figure> Hello, {user.username} <Button variant="secondary" size='sm' onClick={handleLogoutButtonClick}>Log out</Button>
+            </Figure> Hello, {user.username} <Button
+                variant="secondary" size='sm' onClick={handleLogoutButtonClick}>Log out</Button>
             </div>
         ) : (<Container>
             <Row className='mt-5'>
@@ -44,8 +45,7 @@ function Login() {
                 <Col md></Col>
             </Row>
         </Container>
-        )
-        }
+        )}
     </div>
     );
 }
