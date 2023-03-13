@@ -1,9 +1,15 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
+
+import { DataSelector } from '../store';
 
 import { arrayToString } from '../utils';
 
-function ItemHouse({ item }) {
-    return (<div>
+const ElementHouse = () => {
+    const item = useSelector(DataSelector.house);
+
+    return (<div> {item && <div>
         <h3>HOUSE: {item.name}</h3>
         <Table striped bordered hover>
             <tbody>
@@ -11,7 +17,7 @@ function ItemHouse({ item }) {
                 <tr><td>Region</td><td>{item.region}</td></tr>
                 <tr><td>Coat of arms</td><td>{item.coatOfArms}</td></tr>
                 <tr><td>Words</td><td>{item.words}</td></tr>
-                <tr><td>Titles</td><td>{item.released && arrayToString(item.released)}</td></tr>
+                <tr><td>Titles</td><td>{item.titles && arrayToString(item.titles)}</td></tr>
                 <tr><td>Seats</td><td>{item.seats && arrayToString(item.seats)}</td></tr>
                 <tr><td>Current lord (URL)</td><td>{item.currentLord}</td></tr>
                 <tr><td>Heir (URL)</td><td>{item.heir}</td></tr>
@@ -23,9 +29,8 @@ function ItemHouse({ item }) {
                 <tr><td>Number of cade branches</td><td>{item.cadetBranches.length}</td></tr>
                 <tr><td>Number of sworn members</td><td>{item.swornMembers.length}</td></tr>
             </tbody>
-        </Table>
-    </div>
-    )
+        </Table></div>}
+    </div>)
 }
 
-export default ItemHouse;
+export default ElementHouse;

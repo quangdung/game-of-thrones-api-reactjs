@@ -1,21 +1,25 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
+import { DataSelector } from '../store';
 import { arrayToString } from '../utils';
 
-function ItemCharacter({ item }) {
-    return (<div>
+
+const ElementCharacter = () => {
+    const item = useSelector(DataSelector.character);
+
+    return (<div> {item && <div>
         <h3>CHARACTER: {(item.name ? item.name : item.aliases)}</h3>
         <Table striped bordered hover>
             <tbody>
                 <tr><td>Name</td><td>{item.name}</td></tr>
-                <tr><td>ISBN</td><td>{item.isbn}</td></tr>
                 <tr><td>Gender</td><td>{item.gender}</td></tr>
                 <tr><td>Culture</td><td>{item.culture}</td></tr>
-                <tr><td>Publisher</td><td>{item.publisher}</td></tr>
                 <tr><td>Born</td><td>{item.born}</td></tr>
                 <tr><td>Died</td><td>{item.died}</td></tr>
-                <tr><td>Titles</td><td>{item.released && arrayToString(item.released)}</td></tr>
-                <tr><td>Aliases</td><td>{item.aliases  && arrayToString(item.aliases)}</td></tr>
+                <tr><td>Titles</td><td>{item.titles && arrayToString(item.titles)}</td></tr>
+                <tr><td>Aliases</td><td>{item.aliases && arrayToString(item.aliases)}</td></tr>
                 <tr><td>Father (URL)</td><td>{item.father}</td></tr>
                 <tr><td>Mother (URL)</td><td>{item.mother}</td></tr>
                 <tr><td>Spouse (URL)</td><td>{item.spouse}</td></tr>
@@ -25,9 +29,8 @@ function ItemCharacter({ item }) {
                 <tr><td>TV series</td><td>{item.tvSeries && arrayToString(item.tvSeries)}</td></tr>
                 <tr><td>Played by</td><td>{item.playedBy}</td></tr>
             </tbody>
-        </Table>
-    </div>
-    )
+        </Table></div>}
+    </div>)
 }
 
-export default ItemCharacter;
+export default ElementCharacter;

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -7,9 +7,10 @@ import Search from "./components/Search";
 import Login from "./components/Login";
 
 import { AuthContext } from "./auth";
+import { User } from "./global/interfaces";
 
-function App() {
-  const { user } = useContext(AuthContext);
+const App = () => {
+  const { user } = useContext(AuthContext) as { user: User };
 
   return (
     <div>

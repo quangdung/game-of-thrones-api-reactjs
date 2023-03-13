@@ -9,11 +9,15 @@ import App from './App';
 import { AuthProvider } from './auth';
 import store from "./store";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
     <AuthProvider>
-        <Provider store={store}>
-            <App />
-        </Provider>
+      <Provider store={store}>
+        <App />
+      </Provider>
     </AuthProvider>
-);
+  );
+}
+

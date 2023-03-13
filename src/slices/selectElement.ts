@@ -6,11 +6,15 @@
  */
 import { createSlice } from '@reduxjs/toolkit';
 
+import { ElementSimple } from '../global/interfaces';
+
+export interface SelectElementState {
+    element: ElementSimple | null;
+}
+
 const selectSlice = createSlice({
     name: 'select',
-    initialState: {
-        element: null
-    },
+    initialState: { element: null } as SelectElementState,
     reducers: {
         selectElement(state, action) {
             state.element = action.payload;
@@ -18,5 +22,6 @@ const selectSlice = createSlice({
     }
 });
 
+export const selectedElementData = (state: { selectElement: SelectElementState }) => state.selectElement.element;
 export const { selectElement } = selectSlice.actions;
 export default selectSlice.reducer;

@@ -6,25 +6,27 @@ import { Button, Col, Form, Overlay, OverlayTrigger, Row, Tooltip } from 'react-
 import SearchResult from './SearchResult';
 
 import { actions } from '../slices';
+import { DataSelector } from '../store';
 
-function Search() {
+const Search = () => {
     const dispatch = useDispatch();
 
-    const { results, status } = useSelector(state => state.search);
+    const results = useSelector(DataSelector.search);
+    const status = useSelector(DataSelector.status);
 
     const [searchTerm, setSearchTerm] = useState('');
 
     // To hide search results when an element is selected
-    const [closeResult, setCloseResult] = useState(null);
+    const [closeResult, setCloseResult] = useState(true);
 
     const target = useRef(null);
 
-    const handleSearchTermChange = (event) => {
+    const handleSearchTermChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
         const toFind = event.target.value;
         setSearchTerm(toFind);
 
         if (toFind.length >= 3) {
-            dispatch(actions.search(toFind));
+            dispatch(actions.search(toFind) as any);
             setCloseResult(false);
         }
         else {
@@ -38,7 +40,7 @@ function Search() {
                 <Col>
                     <Form.Control
                         type="text"
-                        placeholder="Type more than 3 characters to search..."
+                        placeholder="Type at least 3 letters..."
                         value={searchTerm}
                         onChange={handleSearchTermChange}
                         ref={target}
@@ -46,16 +48,17 @@ function Search() {
                 </Col>
                 {<Col>
                     <OverlayTrigger placement='bottom' overlay={<Tooltip id="tooltip-disabled">
-                       Search book's name, <br/>
-                       character's name, culture, born-died period, <br/>
-                       house's name, region, words
+                        Search book's name, <br />
+                        character's name, culture, born-died period, <br />
+                        house's name, region, words <br/>
+                        /!\ Search only works with correct spelling and complete words /!\
                     </Tooltip>}>
                         <span className="d-inline-block"><Button
                             {...(status === 'loading' && { variant: 'outline-secondary' }
                                 || (status === 'failed' && { variant: 'outline-danger' })
                                 || { variant: 'outline-success' })}
                             disabled>
-                            {status === 'loading' ? 'Search...' : status === 'failed' ? Error : 'Search'}
+                            {status === 'loading' && 'Search...' || status === 'failed' && 'Error' || 'Search'}
                         </Button></span>
                     </OverlayTrigger>
                 </Col>}
@@ -69,8 +72,7 @@ function Search() {
                     </div>
                 )}
             </Overlay>}
-    </div>
-    );
+    </div>);
 }
 
 export default Search;

@@ -1,6 +1,9 @@
 /**
  * Can also use environment variables
  */
+// Login.tsx
+export const PROFILE_IMAGE_URL = 'https://www.gravatar.com/avatar/?d=mp';
+
 // Resource.js
 export const API_DATA_URL = 'https://anapioficeandfire.com/api';
 
@@ -29,12 +32,14 @@ export const CHARACTERS_FILTER_STRING = ['name',
     // 'gender', // Need to be male/Male/female/Female
     'culture', 'born', 'died'
 ];
-// export const CHARACTERS_FILTER_BOOLEAN = ['isAlive'] // TODO: to apply later
+// TODO: to apply later
+// export const CHARACTERS_FILTER_BOOLEAN = ['isAlive'] 
 export const HOUSES_FILTER_STRING = ['name', 'region', 'words'];
+// TODO: to apply later
 // export const HOUSES_FILTER_BOOLEAN = ['hasWords', 'hasTitles',
-//     'hasSeats', 'hasDiedOut', 'hasAncestralWeapons']; // TODO: to apply later
+//     'hasSeats', 'hasDiedOut', 'hasAncestralWeapons']; 
 
-// Excluded these keys if we want to search inside content of elements
+// Excluded these keys if we want to search inside the content of elements
 // export const KEY_EXCLUDED = [ // These keys contain only URLs
 //     'url',
 //     'characters', 'povCharacters', // books

@@ -1,16 +1,21 @@
 import React, { useContext } from 'react';
-
 import { Button, Col, Container, Figure, Form, Row } from 'react-bootstrap';
 
 import { AuthContext } from '../auth';
+import { AuthContextType } from '../global/interfaces';
+import { PROFILE_IMAGE_URL } from '../constants';
 
-function Login() {
-    const { user, handleLogin, handleLogout } = useContext(AuthContext);
-
-    const handleLoginFormSubmit = (event) => {
+const Login = () => {
+    const { user, handleLogin, handleLogout } = useContext(AuthContext) as AuthContextType;
+    
+    const handleLoginFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
-        const { username, password } = event.target.elements;
-        handleLogin(username.value, password.value);
+        const target = event.target as typeof event.target & {
+            username: { value: string };
+            password: { value: string };
+          };
+
+        handleLogin(target.username.value, target.password.value);
     };
 
     const handleLogoutButtonClick = () => handleLogout();
@@ -18,7 +23,7 @@ function Login() {
     return (<div>
         {user ? (
             <div><Figure>
-                <Figure.Image src={'https://www.gravatar.com/avatar/?d=mp'} height={30} width={40} />
+                <Figure.Image src={PROFILE_IMAGE_URL} height={30} width={40} />
             </Figure> Hello, {user.username} <Button
                 variant="secondary" size='sm' onClick={handleLogoutButtonClick}>Log out</Button>
             </div>
@@ -37,17 +42,14 @@ function Login() {
                             <Form.Control type="password" name="password" placeholder="Enter password" />
                         </Form.Group>
 
-                        <Button variant="primary" type="submit">
-                            Log in
-                        </Button>
+                        <Button variant="primary" type="submit">Log in</Button>
                     </Form>
                 </Col>
                 <Col md></Col>
             </Row>
         </Container>
         )}
-    </div>
-    );
+    </div>);
 }
 
 export default Login;

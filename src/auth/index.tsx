@@ -1,9 +1,15 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, FC, useMemo } from 'react';
 
-export const AuthContext = createContext();
+import { User, AuthContextType } from '../global/interfaces';
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+interface PropsType {
+  children: JSX.Element
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider: FC<PropsType> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
@@ -13,8 +19,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Harcoded valid user
-  const handleLogin = (username, password) => {
-    const validUser = {
+  const handleLogin = (username: string, password: string) => {
+    const validUser: User = {
       username: 'user',
       password: 'password',
     };
@@ -33,9 +39,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  const authContextValue = useMemo(() => ({ user, handleLogin, handleLogout }), [user]);
+
   return (
-    <AuthContext.Provider value={{ user, handleLogin, handleLogout }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
+

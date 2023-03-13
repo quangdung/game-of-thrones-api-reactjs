@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Alert, Col, Container, ListGroup, Row } from 'react-bootstrap';
 
 import Element from './Element';
-import Item from './Item';
+import ElementsList from './ElementsList';
 import PaginationData from './PaginationData';
 
 import { actions } from '../slices';
+import { DataSelector } from '../store';
 
-function Resource() {
-  const [resourceSelected, setResourceSelected] = useState(null);
+const Resource = () => {
+  const [resourceSelected, setResourceSelected] = useState('');
 
   const dispatch = useDispatch();
 
-  const resources = useSelector(state => state.resource.data); // API 1st level
+  const resources = useSelector(DataSelector.resource);
 
   useEffect(() => {
-    dispatch(actions.fetchResource());
+    dispatch(actions.fetchResource() as any);
   }, [dispatch]);
 
-  const onResourceClick = (resource) => {
+  const onResourceClick = (resource: string) => {
     setResourceSelected(resource);
-    dispatch(actions.fetchElements(resource));
-    dispatch(actions.selectElement(null)); // Hide element details when change resource
+    dispatch(actions.fetchElements({ endpoint: resource }) as any);
+    dispatch(actions.selectElement(null) as any); // Hide element details when change resource
   }
 
   return (
@@ -50,7 +50,7 @@ function Resource() {
         <Col md={4}>
           {resources && (
             <ListGroup>
-              <ListGroup.Item variant='primary'><h3>Resources</h3></ListGroup.Item>
+              <ListGroup.Item variant='primary'><h3>Select a resource</h3></ListGroup.Item>
               {Object.keys(resources).map(item => (
                 <ListGroup.Item
                   key={item}
@@ -64,10 +64,10 @@ function Resource() {
           <br />
           <br />
           <PaginationData />
-          <Element />
+          <ElementsList />
         </Col>
         <Col xs={1}></Col>
-        <Col><Item /></Col>
+        <Col><Element /></Col>
       </Row>
     </Container>
   );

@@ -1,7 +1,13 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
-function ItemBook({ item }) {
-    return (<div>
+import { DataSelector } from '../store';
+
+const ElementBook = () => {
+    const item = useSelector(DataSelector.book);
+
+    return (<div> {item && <div>
         <h3>BOOK: {item.name}</h3>
         <Table striped bordered hover>
             <tbody>
@@ -15,11 +21,9 @@ function ItemBook({ item }) {
                 <tr><td>Released</td><td>{item.released}</td></tr>
                 <tr><td>Number of characters</td><td>{item.characters.length}</td></tr>
                 <tr><td>Number of POV-characters</td><td>{item.povCharacters.length}</td></tr>
-                {/* <tr><td></td><td>{item.}</td></tr> */}
             </tbody>
-        </Table>
-    </div>
-    )
+        </Table></div>}
+    </div>)
 }
 
-export default ItemBook;
+export default ElementBook;
