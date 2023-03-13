@@ -41,8 +41,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Example of usage
 
+### Login
 ![Login](./public/assets/example0.png)
 
+### Example 1
 ![Example1](./public/assets/example1.png)
 
+### Example 2
 ![Example2](./public/assets/example2.png)
