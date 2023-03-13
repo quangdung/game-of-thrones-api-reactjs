@@ -19,7 +19,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 * Use of *Redux Toolkit* :
     * To make all API GET requests with *Thunk*
     * To select an element, from the elements list or from the search results, and display a detail view in another component
-* Use of *Context* and local storage to handle locally the user authentication (hardcoded)
+* Use of *Context* and *local storage* to handle locally the user authentication (hardcoded)
 * Use the default [pagination of the API provider](https://anapioficeandfire.com/Documentation#pagination) (page size = 10), except for search results (page size = 15)
 * Use of *React-Bootstrap* to create a basic UI
 
@@ -38,3 +38,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 * Perform complex search
 * Create more states for other use cases (loading, error...)
 * Apply more styles for UI
+
+## Example of usage
+
+![Login](./public/assets/example0.png)
+
+![Example1](./public/assets/example1.png)
+
+![Example2](./public/assets/example2.png)
